@@ -1,48 +1,49 @@
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
-const App = () => {
+const UserComponent = ({ surname, age, home }) => (
+  <>
+    <h1>Welcome!</h1>
+    <h2>{surname}</h2>
+    <h3>{age}</h3>
+    <h3>{home}</h3>
+  </>
+);
 
-  const Hello = 'Hello';
-  const name = "Mik";
-  const isNameShowing = true;
-  const User = () => {
-    return(
-      <>
-      <h1>Name: Mik</h1>
-      <h2>Age: 26</h2>
-      </>
-    )
-  }
+const App = () => {
+  const [inputValue, setInputValue] = useState('');
+  const [userData, setUserData] = useState(null);
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const userMap = {
+    Mik: { surname: 'Solid', age: 26, home: 'Subotica' },
+    Jon: { surname: 'Snow', age: 16, home: 'South' },
+    Tim: { surname: 'Sloth', age: 36, home: 'CG' },
+    Beth: { surname: 'Smith', age: 23, home: 'London' },
+    Joy: { surname: 'Summer', age: 28}, home: 'Cornwall',
+  };
+
+  const setUser = (user) => {
+    setUserData(userMap[user]);
+  };
+
+  useEffect(() => {
+    setUser(inputValue);
+  }, [inputValue]);
 
   return (
-    <div className="App">
-      <div className="App-header">
-      <h1>{Hello}, {isNameShowing ? name : 'noname'}!</h1>
-      {isNameShowing ? (
-        <>
-          <h1>Welcome</h1>
-          <h3>is your name {name}?</h3>
-        </>
-      ) : (
-        <>
-          <h1>test</h1>
-          <h2>kaki</h2>
-        </>
-      )}
-
-      {name ? (
-          <User />
-      ) : (
-        <>
-          <h2>No name entered</h2>
-          <h3>enter name</h3>
-        </>  
-      )
-
-      }
-    </div>
+    <div className="App-header">
+      <input
+        type="text"
+        value={inputValue}
+        onChange={handleInputChange}
+      />
+      {userData && <UserComponent {...userData} />}
     </div>
   );
-}
+};
 
 export default App;
